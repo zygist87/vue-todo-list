@@ -1,0 +1,21 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  font-size: 16px;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Arial", sans-serif;
+  background: #141E30;
+  background: linear-gradient(to left, #243B55, #141E30);
+  color: rgba(0, 0, 0, 0.87);
+  height: 100%;
+}
