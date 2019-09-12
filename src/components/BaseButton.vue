@@ -1,6 +1,6 @@
 <template>
   <button
-    class="button"
+    :class="['button', { 'button--outlined': outlined }]"
     @click="handleClick"
   >
     <slot />
@@ -10,6 +10,12 @@
 <script>
 export default {
   name: 'BaseButton',
+  props: {
+    outlined: {
+      type: Boolean,
+      default: false
+    }
+  },
   methods: {
     handleClick (e) {
       this.$emit('click', e)
@@ -27,7 +33,7 @@ export default {
     border-radius: 4px;
     border: 0;
     text-transform: uppercase;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     transition: 0.2s opacity ease;
 
     &:focus {
@@ -41,6 +47,11 @@ export default {
 
     &:hover {
       cursor: pointer;
+    }
+    &--outlined {
+      background-color: transparent;
+      border: 1px solid #ff0047;
+      color: #ff0047;
     }
   }
 </style>

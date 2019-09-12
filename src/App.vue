@@ -1,12 +1,34 @@
 <template>
   <div class="app">
     <div class="surface">
-      <h1 class="headline">
-        <i class="material-icons">
-          assignment_turned_in
-        </i>
-        Todo List
-      </h1>
+      <header class="surface__header">
+        <h1 class="headline">
+          <i class="material-icons">
+            assignment_turned_in
+          </i>
+          Todo List
+        </h1>
+        <div class="surface__filters">
+          <BaseButton
+            v-for="filter in filters"
+            :key="filter"
+            :outlined="filter !== activeFilter"
+            class="surface__filter"
+            @click="addFilter(filter)"
+          >
+            {{ filter }}
+          </BaseButton>
+          <BaseButton
+            v-for="type in sortTypes"
+            :key="type"
+            :outlined="type !== sortedBy"
+            class="surface__filter"
+            @click="setSortedBy(type)"
+          >
+            {{ type }}
+          </BaseButton>
+        </div>
+      </header>
       <h4 class="headline headline--4"> {{ today }} </h4>
 
       <div class="surface__new">
@@ -30,7 +52,7 @@
       >
         <TodoList>
           <TodoListItem
-            v-for="todo in todos"
+            v-for="todo in filteredTodos"
             :key="todo.id"
             :todo="todo"
             @change="handleChange(todo.id, $event)"
@@ -60,13 +82,38 @@ export default {
   },
   data () {
     return {
+      activeFilter: 'all',
+      sortedBy: 'asc',
+      sortTypes: ['asc', 'desc'],
+      filters: ['all', 'completed', 'in-progress'],
       newTodoText: null,
       todos: []
     }
   },
   computed: {
-    totalTodos () {
-      return this.todos.length
+    filteredTodos () {
+      const filteredTodos = this.todos.filter(todo => {
+        switch (this.activeFilter) {
+          case 'all':
+            return true
+          case 'completed':
+            return todo.done
+          case 'in-progress':
+            return !todo.done
+          default:
+            return true
+        }
+      })
+
+      if (this.sortedBy === 'asc') {
+        return filteredTodos.sort((a, b) => a.time - b.time)
+      }
+
+      if (this.sortedBy === 'desc') {
+        return filteredTodos.sort((a, b) => b.time - a.time)
+      }
+
+      return filteredTodos
     },
     today () {
       return new Date().toLocaleString('en-GB', { weekday: 'long', month: 'long', day: '2-digit' })
@@ -74,6 +121,12 @@ export default {
   },
 
   methods: {
+    addFilter (value) {
+      this.activeFilter = value
+    },
+    setSortedBy (type) {
+      this.sortedBy = type
+    },
     handleClick (event) {
       if (!this.newTodoText) return
       const todo = {
@@ -153,6 +206,24 @@ export default {
     &__button {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
+    }
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+
+      .headline {
+        margin-bottom: 0;
+      }
+    }
+
+    &__filters {
+      margin: 0 -0.75rem;
+    }
+    &__filter {
+      margin: 0 0.75rem;
     }
   }
 </style>
