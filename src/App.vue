@@ -1,7 +1,12 @@
 <template>
   <div class="app">
     <div class="surface">
-      <h1 class="headline"> Todo List </h1>
+      <h1 class="headline">
+        <i class="material-icons">
+          assignment_turned_in
+        </i>
+        Todo List
+      </h1>
       <h4 class="headline headline--4"> {{ today }} </h4>
 
       <div class="surface__new">
@@ -15,11 +20,14 @@
           class="surface__button"
           @click="handleClick"
         >
-            <i class="material-icons"> add </i>
+            <i class="material-icons"> playlist_add </i>
         </BaseButton>
       </div>
 
-      <div class="surface__todos">
+      <div
+        v-if="todos.length > 0"
+        class="surface__todos"
+      >
         <TodoList>
           <TodoListItem
             v-for="todo in todos"
@@ -41,6 +49,7 @@ import BaseButton from '@/components/BaseButton'
 import BaseTextField from '@/components/BaseTextField'
 import TodoList from '@/components/TodoList'
 import TodoListItem from '@/components/TodoListItem'
+
 export default {
   name: 'App',
   components: {
@@ -99,12 +108,14 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    min-height: 100%;
     padding: 1.5rem;
   }
 
   .headline {
-    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.75rem;
     margin: 0;
     margin-bottom: 1.5rem;
 
@@ -112,6 +123,11 @@ export default {
       font-size: 1.15rem;
       font-weight: normal;
       color: rgba(black, 0.51);
+    }
+
+    .material-icons {
+      font-size: 2.5rem;
+      margin-right: 0.5rem;
     }
   }
 

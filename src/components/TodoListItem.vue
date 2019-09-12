@@ -78,7 +78,7 @@ export default {
     &__text {
       flex: 1;
       font-weight: bold;
-      font-size: 1rem;
+      font-size: 0.975rem;
       margin-left: 1rem;
       padding: 1rem 0;
       padding-right: 1rem;
